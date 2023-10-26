@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Count Page:  <span id="count"></span></h1>
+
+    <script>
+        var ws = new WebSocket("ws://127.0.0.1:7879/ws/ac/");
+
+        ws.onopen = function (event){
+            console.log("Websocket Connection Open...", event);
+            ws.send("Hi, Message from client...");
+        }
+
+        ws.onmessage = function (event){
+            document.getElementById("count").innerText = event.data;
+            console.log("Message received from server...", event["data"]);
+        }
+
+        // ws.onmessage = function (event){
+        //     console.log("Event: ", event);
+        //     console.log("Message Received from Server: ", event.data);
+        //     console.log("Type of Event Data: ", typeof(event.data));
+        //     var data = JSON.parse(event.data);
+        //     console.log("Parsed Data: ", data);
+        //     console.log("Type of Parsed Data: ", typeof(data));
+        //     document.getElementById("count").innerText = data.count;
+        // }
+
+        ws.onerror = function (event){
+            console.log("Websocket Error Occurredd...", event);
+        }
+
+        ws.onclose = function (event){
+            console.log("Websocket Connection Closed...", event);
+        }
+
+    </script>
+</body>
+</html>
