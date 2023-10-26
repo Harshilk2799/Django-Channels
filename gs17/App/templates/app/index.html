@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Count Page <span id="count"></span></h1>
+
+    <script>
+        var ws = new WebSocket("ws://127.0.0.1:7878/ws/ajwsc/")
+        ws.onopen = function (){
+            console.log("Websocket Connection Open....")
+            ws.send(JSON.stringify({
+                "msg":"Message from client"
+            }))
+        }
+
+        ws.onmessage = function(event){
+            console.log("Message Received from Server...", event.data);
+            var data = JSON.parse(event.data);
+            console.log("Data: ", data);
+            document.getElementById("count").innerText = data.msg;
+        }
+    </script>
+</body>
+</html>
